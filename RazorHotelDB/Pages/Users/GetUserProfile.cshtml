@@ -1,0 +1,9 @@
+﻿@page
+@model RazorHotelDB.Pages.Users.GetUserProfileModel
+@{
+    ViewData["Title"] = "UserProfile";
+}
+
+<h1>Welcome to @Model.CurrentUser</h1>
+
+<a asp-page="/users/LogIn" asp-page-handler="Logout">Logout</a>

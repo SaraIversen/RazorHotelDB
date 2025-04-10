@@ -1,0 +1,54 @@
+﻿@page
+@model RazorHotelDB.Pages.Hotels.DeleteHotelModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<!-- Show title & Return button -->
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Delete a hotel</h1>
+    @if (Model.Hotel != null && !Model.IsDeleted)
+    {
+        <a asp-page="GetAllHotels" class="btn btn-danger" role="button">Return</a>
+    }
+</div>
+
+@if (Model.Hotel != null && !Model.IsDeleted)
+{
+    <p>Are you sure you want to delete the following hotel:</p>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th></th>
+                <th>Navn</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Hotel.HotelNr</td>
+                <td style="max-width: 150px; max-height: 150px;"><img class="img-fluid" src="~/images/hotelImages/@Model.Hotel.Image" alt="Hotel image" /></td>
+                <td>@Model.Hotel.Navn</td>
+                <td>@Model.Hotel.Adresse</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="post">
+        <button class="btn btn-success btn-sm"> Delete </button>
+        <input type="hidden" name="hotelNo" value=@Model.Hotel.HotelNr />
+    </form>
+}
+else if (Model.IsDeleted)
+{
+    <p>The hotel has been deleted</p>
+    <a asp-page="GetAllHotels" class="btn btn-success">Continue</a>
+}
+else
+{
+    <p>Something went wrong: The hotel was not deleted, likely because it has attached rooms</p>
+    <a asp-page="GetAllHotels" class="btn btn-success">Continue</a>
+}

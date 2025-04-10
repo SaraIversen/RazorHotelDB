@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorHotelDB", "RazorHotelDB\RazorHotelDB.csproj", "{B12A3C29-68D1-4452-80D8-C2603762F549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorHotelDBTest", "RazorHotelDBTest\RazorHotelDBTest.csproj", "{FE4C35AB-E2B3-4A9D-AA53-CB46046ED910}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B12A3C29-68D1-4452-80D8-C2603762F549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12A3C29-68D1-4452-80D8-C2603762F549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12A3C29-68D1-4452-80D8-C2603762F549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12A3C29-68D1-4452-80D8-C2603762F549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE4C35AB-E2B3-4A9D-AA53-CB46046ED910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE4C35AB-E2B3-4A9D-AA53-CB46046ED910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE4C35AB-E2B3-4A9D-AA53-CB46046ED910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE4C35AB-E2B3-4A9D-AA53-CB46046ED910}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA0C5A54-0F8E-47DE-9F45-47C7198E8CFA}
+	EndGlobalSection
+EndGlobal

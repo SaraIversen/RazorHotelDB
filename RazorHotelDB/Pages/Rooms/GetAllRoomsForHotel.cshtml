@@ -1,0 +1,111 @@
+﻿@page
+@using RazorHotelDB.Enums
+@using RazorHotelDB.Models
+@model RazorHotelDB.Pages.Rooms.GetAllRoomsForHotelModel
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<h1>
+    Rooms for hotel: @Model.Hotel.Navn
+</h1>
+
+<hr />
+
+<div class="container-fluid p-0 m-0">
+
+    <!-- First row: Info & Buttons -->
+    <div class="row align-items-center mb-3">
+        <!-- Show number of rooms & Create a room button -->
+        <div class="col">
+            <p class="mb-0">Number of rooms is: @Model.Rooms.Count</p>
+        </div>
+        <div class="col text-end">
+            @if (!string.IsNullOrEmpty(@Model.CurrentUser))
+            {
+                <a asp-page="CreateRoom" class="btn btn-success" role="button" asp-route-hotelNo=@Model.Hotel.HotelNr>Create a room</a>
+            }
+            <a asp-page="../Hotels/GetAllHotels" class="btn btn-danger" role="button">Return</a>
+        </div>
+    </div>
+
+    <!-- Second row: Sort/Filter & Table -->
+    <div class="row align-items-start g-3">
+        <div class="col-md-3">
+            <div class="card p-3">
+                <!-- Filtering & Sorting -->
+                <form asp-handler="Rooms" method="get">
+
+                    <input type="hidden" name="hotelNo" value=@Model.Hotel.HotelNr />
+
+                    <div class="form-group"> 
+                        <label class="control-label fw-bold">Room type</label>
+                        <select asp-for="@Model.FilterRoomType" asp-items="Html.GetEnumSelectList<RoomType>()" class="form-select" onchange="this.form.submit()">
+                            <option value="All">All</option>
+                        </select>
+                    </div>
+
+                    <br />
+
+                    <div class="form-group">
+                        <label class="control-label fw-bold">Sort order</label><br />
+                        <select asp-for="@Model.SortOrderAscDesc" class="form-select" onchange="this.form.submit()">
+                            <option value="Ascending">Ascending</option>
+                            <option value="Descending">Descending</option>
+                        </select>
+                    </div>
+
+                    <br />
+
+                    <label class="control-label fw-bold">Max price</label><br />
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.FilterMaxPrice" class="form-control" />
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <!-- Table with rooms -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Room number</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th class="text-end">
+                            @if (!string.IsNullOrEmpty(@Model.CurrentUser))
+                            {
+                                <p>Actions</p>
+                            }
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Rooms.Count() > 0)
+                    {
+                        @foreach (Room room in Model.Rooms)
+                        {
+                            <tr>
+                                <td>@room.RoomNr</td>
+                                <td>@room.Types</td>
+                                <td>@room.Pris</td>
+                                <td class="text-end">
+                                    @if (!string.IsNullOrEmpty(@Model.CurrentUser))
+                                    {
+                                        <p>
+                                            <a class="btn btn-primary btn-sm" title="Edit" asp-page="EditRoom" asp-route-roomNo=@room.RoomNr asp-route-hotelNo=@room.HotelNr><i class="fas fa-edit"></i></a>
+                                            <a class="btn btn-danger btn-sm" title="Delete" asp-page="DeleteRoom" asp-route-roomNo=@room.RoomNr asp-route-hotelNo=@room.HotelNr><i class="fas fa-trash"></i></a>
+                                        </p>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

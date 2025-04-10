@@ -1,0 +1,108 @@
+﻿@page
+@model RazorHotelDB.Pages.Hotels.EditHotelModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<!-- JS function to show an image preview -->
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const image = document.getElementById('imagePreview');
+            image.src = e.target.result;
+            image.style.display = 'block'; // Show the image
+        };
+
+        if (file) {
+        reader.readAsDataURL(file);
+
+        // Set the filename into the Hotel.Image input
+        const imageField = document.getElementById('ImageField');
+        const uniqueImagePath = Guid.NewGuid().ToString() + "_" + fileName;
+        imageField.value = uniqueImagePath; //file.name;
+        }
+    }
+</script>
+
+<!-- Show title & Return button -->
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Update a hotel</h1>
+    @if (!@Model.IsUpdated)
+    {
+        <a asp-page="GetAllHotels" class="btn btn-danger" role="button">Return</a>
+    }
+</div>
+
+@if (!@Model.IsUpdated)
+{
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="@Model.Hotel.HotelNr" class="control-label"></label>
+            <input asp-for="@Model.Hotel.HotelNr" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Hotel.Navn" class="control-label"></label>
+            <input asp-for="@Model.Hotel.Navn" class="form-control" />
+            <span asp-validation-for="@Model.Hotel.Navn" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Hotel.Adresse" class="control-label"></label>
+            <input asp-for="@Model.Hotel.Adresse" class="form-control" />
+            <span asp-validation-for="@Model.Hotel.Adresse" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="@Model.Hotel.Image" class="form-control" id="ImageField" hidden />
+        </div>
+        <div>
+            <label asp-for="@Model.Hotel.Image" class="control-label"></label> <br />
+            <img src="~/images/hotelImages/@Model.Hotel.Image" alt="Hotel image" style="max-width: 200px; max-height: 200px;" />
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="@Model.Photo" class="control-label">Upload a new photo?</label>
+            <div class="custom-file">
+                <input asp-for="@Model.Photo" class="custom-file-input form-control" onchange="previewImage(event)" />
+            </div>
+            <br />
+            <!-- Image Preview -->
+            <div>
+                <img id="imagePreview" style="max-width: 200px; max-height: 200px; display: none;" />
+            </div>
+        </div>
+        <br />
+        <div class="formgroup">
+            <input type="submit" value="Update" class="btn btn-success" />
+        </div>
+
+    </form>
+}
+else
+{
+    <p>You have updated the following hotel:</p>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th></th>
+                <th>Navn</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Hotel.HotelNr</td>
+                <td style="max-width: 150px; max-height: 150px;"><img class="img-fluid" src="~/images/hotelImages/@Model.Hotel.Image" alt="Hotel image" /></td>
+                <td>@Model.Hotel.Navn</td>
+                <td>@Model.Hotel.Adresse</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a asp-page="GetAllHotels" class="btn btn-success">Continue</a>
+}

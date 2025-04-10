@@ -1,0 +1,53 @@
+﻿@page
+@model RazorHotelDB.Pages.Rooms.DeleteRoomModel
+@{
+    ViewData["Title"] = "DeleteRoom";
+}
+
+<!-- Show title & Return button -->
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Delete a room</h1>
+    @if (Model.Room != null && !Model.IsDeleted)
+    {
+        <a class="btn btn-danger" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.HotelNr>Return</a>
+    }
+</div>
+
+@if (Model.Room != null && !Model.IsDeleted)
+{
+    <p>Are you sure you want to delete the following room:</p>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room number</th>
+                <th>Type</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Room.RoomNr</td>
+                <td>@Model.Room.Types</td>
+                <td>@Model.Room.Pris</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="post">
+        <button class="btn btn-success btn-sm"> Delete </button>
+        <input type="hidden" name="hotelNo" value="@Model.Room.HotelNr" />
+        <input type="hidden" name="roomNo" value="@Model.Room.RoomNr" />
+    </form>
+}
+else if (Model.IsDeleted)
+{
+    <p>The room has been deleted</p>
+    <a class="btn btn-success" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.HotelNr>Continue</a>
+}
+else
+{
+    <p>Something went wrong: The room was not deleted</p>
+    <a class="btn btn-success" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.HotelNr>Continue</a>
+}

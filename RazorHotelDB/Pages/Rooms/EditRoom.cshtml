@@ -1,0 +1,71 @@
+﻿@page
+@model RazorHotelDB.Pages.Rooms.EditRoomModel
+@{
+    ViewData["Title"] = "EditRoom";
+}
+
+<!-- Show title & Return button -->
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Update a room</h1>
+    @if (!@Model.IsUpdated)
+    {
+        <a class="btn btn-danger" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.Room.HotelNr>Return</a>
+    }
+</div>
+
+@if (!@Model.IsUpdated)
+{
+    <form method="post">
+
+        <div class="form-group">
+            <label asp-for="@Model.Room.HotelNr" class="control-label"></label>
+            <input asp-for="@Model.Room.HotelNr" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Room.RoomNr" class="control-label"></label>
+            <input asp-for="@Model.Room.RoomNr" class="form-control" />
+            <span asp-validation-for="@Model.Room.RoomNr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Room.Types" class="control-label"></label>
+            <select asp-for="@Model.Room.Types" asp-items="@Model.RoomTypeSelectList" class="form-select" id="@Model.Room.Types"></select>
+            <span asp-validation-for="@Model.Room.Types" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Room.Pris" class="control-label"></label>
+            <input asp-for="@Model.Room.Pris" class="form-control" />
+            <span asp-validation-for="@Model.Room.Pris" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="formgroup">
+            <input type="submit" value="Update" class="btn btn-success" />
+            <input type="hidden" name="oldRoomNo" value=@Model.OldRoomNo />
+        </div>
+
+    </form>
+}
+else
+{
+    <p>You have updated the following room:</p>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room number</th>
+                <th>Type</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Room.RoomNr</td>
+                <td>@Model.Room.Types</td>
+                <td>@Model.Room.Pris</td>
+            </tr>
+        </tbody>
+    </table>
+
+@*     <p>@Model.Room.ToString()</p> *@
+    <a class="btn btn-success" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.Room.HotelNr>Continue</a>
+}

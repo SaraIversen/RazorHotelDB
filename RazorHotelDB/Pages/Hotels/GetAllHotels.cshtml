@@ -1,0 +1,118 @@
+﻿@page
+@using RazorHotelDB.Models
+@model RazorHotelDB.Pages.Hotels.GetAllHotelsModel
+@{
+    ViewData["Title"] = "Hotels";
+}
+
+@* <style>
+    thead th {
+        border-bottom: 0 !important;
+        background-color: #e9ecef !important;
+    }
+</style> *@
+
+<h1>Hotels</h1>
+
+<hr />
+
+<div class="container-fluid p-0 m-0">
+
+    <!-- First row: Info & Buttons -->
+    <div class="row align-items-center mb-3">
+        <!-- Show number of hotels & Create a hotel button -->
+        <div class="col">
+            <p class="mb-0">Number of hotels is: @Model.Hotels.Count</p>
+        </div>
+        <div class="col text-end">
+            @if (!string.IsNullOrEmpty(@Model.CurrentUser)) 
+            {
+                <a asp-page="CreateHotel" class="btn btn-success" role="button">Create a hotel</a>
+            }
+        </div>
+    </div>
+
+    <!-- Second row: Sort/Filter & Table -->
+    <div class="row align-items-start">
+        <div class="col-md-3 pb-3">
+            <div class="card p-3">
+                <!-- Filtering & Sorting -->
+                <form method="get">
+
+                    <label class="custom-control-label fw-bold">Search by hotel name</label><br />
+                    <div class="input-group">
+                        <input type="text" asp-for="FilterCriteria" class="form-control" placeholder="Search..." onchange="this.form.submit()" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+
+                    <br />
+
+                    <div class="form-group">
+                        <label class="custom-control-label fw-bold">Sort by</label><br />
+                        <input type="radio" asp-for="@Model.SortOrder" value="HotelNr" onclick="this.form.submit()" /> Hotel ID <br />
+                        <input type="radio" asp-for="@Model.SortOrder" value="Navn" onclick="this.form.submit()" /> Name <br />
+                        <input type="radio" asp-for="@Model.SortOrder" value="Adresse" onclick="this.form.submit()" /> Address
+                    </div>
+
+                    <br />
+
+                    <div class="form-group">
+                        <label class="custom-control-label fw-bold">Sort order</label><br />
+                        <select asp-for="@Model.SortOrderAscDesc" class="form-select" onchange="this.form.submit()">
+                            <option value="Ascending">Ascending</option>
+                            <option value="Descending">Descending</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <!-- Table with hotels -->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th class="text-end">
+                            @if (!string.IsNullOrEmpty(@Model.CurrentUser)) 
+                            { 
+                                <p>Actions</p> 
+                            } 
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Hotels.Count() > 0)
+                    {
+                        @foreach (Hotel hotel in Model.Hotels)
+                        {
+                            <tr>
+                                <td>@hotel.HotelNr</td>
+                                <td style="max-width: 150px; max-height: 150px;">
+                                    <img class="img-fluid" src="~/images/hotelImages/@hotel.Image" alt="Hotel image" />
+@*                                     <i class="fas fa-image text-muted" style="font-size: 10rem;"></i> *@
+                                </td>
+                                <td>@hotel.Navn</td>
+                                <td>@hotel.Adresse</td>
+                                <td class="text-end">
+                                    <p>
+                                        <a class="btn btn-success btn-sm" title="Rooms" asp-page="../Rooms/GetAllRoomsForHotel" asp-route-hotelNo=@hotel.HotelNr><i class="fas fa-home"></i></a>
+                                        @if (!string.IsNullOrEmpty(@Model.CurrentUser))
+                                        {
+                                            <a class="btn btn-primary btn-sm" title="Edit" asp-page="EditHotel" asp-route-hotelNo=@hotel.HotelNr><i class="fas fa-edit"></i></a>
+                                            <a class="btn btn-danger btn-sm" title="Delete" asp-page="DeleteHotel" asp-route-hotelNo=@hotel.HotelNr><i class="fas fa-trash"></i></a>
+                                        }
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

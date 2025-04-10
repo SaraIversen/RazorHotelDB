@@ -1,0 +1,48 @@
+﻿@page
+@using RazorHotelDB.Models
+@model RazorHotelDB.Pages.Rooms.GetAllRoomsModel
+@{
+    ViewData["Title"] = "GetAllRooms";
+}
+
+<h1>Rooms</h1>
+
+<hr />
+
+<p>Number of rooms is: @Model.Rooms.Count</p>
+
+@* <a asp-page="Create">Create a room</a> *@
+
+<table style="width:100%" class="table">
+    <thead style="background-color:lightgray;border-radius:60px">
+        <tr>
+            <th>Room no</th>
+            <th>Hotel no</th>
+            <th>Type</th>
+            <th>Price</th>
+            @* <th>Actions</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Rooms.Count() > 0)
+        {
+            @foreach (Room room in Model.Rooms)
+            {
+                <tr>
+                    <td>@room.RoomNr</td>
+                    <td>@room.HotelNr</td>
+                    <td>@room.Types</td>
+                    <td>@room.Pris</td>
+@*                     <td>
+                        <p>
+                            <a asp-page="Delete" asp-route-hotelNo=@room.RoomNr>Delete</a>
+                        </p>
+                        <p>
+                            <a asp-page="Edit" asp-route-hotelNo=@room.RoomNr>Edit</a>
+                        </p>
+                    </td> *@
+                </tr>
+            }
+        }
+    </tbody>
+</table>

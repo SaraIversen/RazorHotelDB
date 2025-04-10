@@ -1,0 +1,13 @@
+﻿@page
+@model RazorHotelDB.Pages.Users.LogoutModel
+@{
+    ViewData["Title"] = "Logout";
+}
+
+<h1>Logout</h1>
+
+<p>Are you sure you want to log out of this user:</p>
+
+<p>@Model.CurrentUser</p>
+
+<a class="btn btn-danger" asp-page="/users/LogIn" asp-page-handler="Logout">Logout</a>

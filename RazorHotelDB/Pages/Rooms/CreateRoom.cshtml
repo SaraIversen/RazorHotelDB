@@ -1,0 +1,72 @@
+﻿@page
+@using RazorHotelDB.Enums
+@model RazorHotelDB.Pages.Rooms.CreateRoomModel
+@{
+    ViewData["Title"] = "CreateRoom";
+}
+
+<!-- To use the icons -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+<!-- Show title & Return button -->
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Creating a room for hotel: @Model.Hotel.Navn</h1>
+    @if (!Model.IsCreated)
+    {
+        <a class="btn btn-danger" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.Hotel.HotelNr>Return</a>
+    }
+</div>
+
+@if (!Model.IsCreated)
+{
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="@Model.NewRoom.HotelNr" class="control-label"></label>
+            <input asp-for="@Model.NewRoom.HotelNr" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.NewRoom.RoomNr" class="control-label"></label>
+            <input asp-for="@Model.NewRoom.RoomNr" class="form-control" />
+            <span asp-validation-for="@Model.NewRoom.RoomNr" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.NewRoom.Types" class="control-label"></label>
+            <select asp-for="@Model.NewRoom.Types" asp-items="@Model.RoomTypeSelectList" class="form-select" id="@Model.NewRoom.Types"></select>
+            <span asp-validation-for="@Model.NewRoom.Types" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.NewRoom.Pris" class="control-label"></label>
+            <input asp-for="@Model.NewRoom.Pris" class="form-control" />
+            <span asp-validation-for="@Model.NewRoom.Pris" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="formgroup">
+            <input type="submit" value="Create" class="btn btn-success" />
+        </div>
+
+    </form>
+}
+else
+{
+    <p>You have created the following room:</p>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room number</th>
+                <th>Type</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.NewRoom.RoomNr</td>
+                <td>@Model.NewRoom.Types</td>
+                <td>@Model.NewRoom.Pris</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" asp-page="GetAllRoomsForHotel" asp-route-hotelNo=@Model.NewRoom.HotelNr>Continue</a>
+}
